@@ -79,7 +79,7 @@ public class Main extends PApplet {
 			
 			background(0);
 			textSize(20);
-			text("Error en los datos ingresados", width/2-150, height/2);
+			text("Ha ingresado correctamente", width/2-150, height/2);
 			
 			break;
 		}
@@ -113,35 +113,17 @@ public class Main extends PApplet {
 
 					while (true) {
 
-						Boolean logeado = false;
+						
 						String line = bufferedReader.readLine();
 						System.out.println(line);
 
 						Gson gson = new Gson();
 						User tempUser = gson.fromJson(line, User.class);
+						
+						VerifyData(tempUser);
 
-						for (int i = 0; i < usuarios.size(); i++) {
+						
 
-							if (tempUser.getUserName().equals(usuarios.get(i).getUserName())) {
-
-								if (tempUser.getPassword().equals(usuarios.get(i).getPassword())) {
-
-									logeado = true;
-									pantalla =1;
-									SendMessage(true);
-									break;
-
-								}
-
-							}
-
-						}
-
-						if (!logeado) {
-							SendMessage(false);
-							pantalla =2;
-
-						}
 					}
 
 				} catch (IOException e) {
@@ -166,8 +148,9 @@ public class Main extends PApplet {
 						if (resultado) {
 
 							try {
-								bufferedWriter.flush();
+								
 								bufferedWriter.write("ok\n");
+								bufferedWriter.flush();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -193,5 +176,34 @@ public class Main extends PApplet {
 		).start();
 
 	}
+	
+	private void VerifyData(User user) {
+		
+		Boolean logeado = false;
+		
+		System.out.println(user.getUserName());
+		
+		for (int i = 0; i < usuarios.size(); i++) {
 
+			if (user.getUserName().equals(usuarios.get(i).getUserName())) {
+
+				if (user.getPassword().equals(usuarios.get(i).getPassword())) {
+
+					logeado = true;
+					SendMessage(true);
+					break;
+
+				}
+
+			}
+
+		}
+		
+
+		if (!logeado) {
+			SendMessage(false);
+
+		}
+		
+	}
 }
