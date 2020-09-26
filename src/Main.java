@@ -13,6 +13,7 @@ import javax.jws.soap.SOAPBinding.Use;
 
 import com.google.gson.Gson;
 
+import model.Confirmation;
 import model.User;
 import processing.core.PApplet;
 import processing.core.PShapeSVG.Text;
@@ -148,8 +149,11 @@ public class Main extends PApplet {
 						if (resultado) {
 
 							try {
-								
-								bufferedWriter.write("ok\n");
+								Confirmation tempConfirmation = new Confirmation();
+								tempConfirmation.setValid(true);
+								Gson gson = new Gson();
+								String confirmation = gson.toJson(tempConfirmation);
+								bufferedWriter.write(confirmation+"\n");
 								bufferedWriter.flush();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
@@ -161,7 +165,12 @@ public class Main extends PApplet {
 				else {
 
 							try {
-								bufferedWriter.write("nel\n");
+								
+								Confirmation tempConfirmation = new Confirmation();
+								tempConfirmation.setValid(false);
+								Gson gson = new Gson();
+								String confirmation = gson.toJson(tempConfirmation);
+								bufferedWriter.write(confirmation+"\n");
 								bufferedWriter.flush();
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
